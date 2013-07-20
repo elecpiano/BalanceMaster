@@ -24,16 +24,21 @@ enum {
 
 #pragma mark - HelloWorldLayer
 
+#define GRAIN_COUNT 225
+#define GRAIN_GENERATING_DURATION 0.3
+#define GRAIN_RADIUS 6
+
 @interface HelloWorldLayer()
 -(void) initPhysics;
--(void) addNewSpriteAtPosition:(CGPoint)p;
+-(b2Body *) addNewSpriteAtPosition:(CGPoint)p;
 -(void) createMenu;
 @end
 
 @implementation HelloWorldLayer{
     CGSize WIN_SIZE;
-    CGFloat GRAIN_RADIUS;
     CCSpriteBatchNode *spritesheet;
+    b2Body *availableGrains[GRAIN_COUNT];
+    NSMutableArray *availableGrainsIndex;
 }
 
 +(CCScene *) scene
@@ -60,7 +65,6 @@ enum {
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		WIN_SIZE = [CCDirector sharedDirector].winSize;
-		GRAIN_RADIUS = 6;
         
         //load spritesheet
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Textures.plist"];
@@ -72,11 +76,9 @@ enum {
 		
 		// create reset button
 		[self createMenu];
-		
 
-		
         [self populateSandGrains];
-//        [self generateNextGrain];
+        [self generateNextGrain];
 		
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
@@ -221,20 +223,33 @@ enum {
 }
 
 -(void)populateSandGrains{
-    for (int row = 0; row<20; row++) {
-        for (int column = 0; column<20; column++) {
-            CGPoint point = ccp(WIN_SIZE.width/2 - 50 + column*GRAIN_RADIUS, WIN_SIZE.height - row*GRAIN_RADIUS);
-            [self addNewSpriteAtPosition:point];
+    availableGrainsIndex = [[NSMutableArray alloc] init];
+    for (int row = 0; row<15; row++) {
+        for (int column = 0; column<15; column++) {
+            CGPoint point = ccp(WIN_SIZE.width/2 - 50 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 120 - row*GRAIN_RADIUS);
+            b2Body *body = [self addNewSpriteAtPosition:point];
+            int index = row * 15 + column;
+            availableGrains[index] = body;
+            [availableGrainsIndex addObject:[NSNumber numberWithInt:index]];
         } 
     }
 }
 
 -(void) generateNextGrain{
-    [self addNewSpriteAtPosition:ccp(160, 240)];
-    [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:0.2];
+    
+    if ([availableGrainsIndex count]>0) {
+//        int random = arc4random() % [availableGrainsIndex count];
+        int random = [availableGrainsIndex count] -1;
+        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:random];
+        b2Body *body = availableGrains[[indexNum intValue]];
+        world->DestroyBody(body);
+        [availableGrainsIndex removeObjectAtIndex:random];
+        [self addNewSpriteAtPosition:ccp(160, 230)];
+        [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:GRAIN_GENERATING_DURATION];
+    }
 }
 
--(void) addNewSpriteAtPosition:(CGPoint)p
+-(b2Body *) addNewSpriteAtPosition:(CGPoint)p
 {
     //	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
     CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithSpriteFrameName:@"grain.png"];
@@ -253,6 +268,8 @@ enum {
 //    [sprite setPosition: ccp( p.x, p.y)];
 	[sprite setPTMRatio:PTM_RATIO];
 	[sprite setB2Body:body];
+    
+    return body;
 }
 
 -(void) update: (ccTime) dt

@@ -18,7 +18,7 @@
 			<key>bottle</key>
 			<dict>
 				<key>anchorpoint</key>
-                <string>{ 0.4906,0.5099 }</string>
+                <string>{ 0.5016,0.5068 }</string>
 				<key>fixtures</key>
 				<array>
 
@@ -36,58 +36,60 @@
 						<key>polygons</key>
 						<array>
 							<array>	
-								<string>{ -59.500,141.830 }</string>	
-								<string>{ -67.500,141.830 }</string>	
-								<string>{ -67.500,50.830 }</string>	
-								<string>{ -59.500,54.830 }</string>
+								<string>{ -61.250,142.830 }</string>	
+								<string>{ -69.250,142.830 }</string>	
+								<string>{ -69.250,51.830 }</string>	
+								<string>{ -61.250,55.830 }</string>
 							</array>
 							<array>	
-								<string>{ -67.500,50.830 }</string>	
-								<string>{ -17.500,0.830 }</string>	
-								<string>{ -5.500,-0.170 }</string>	
-								<string>{ -59.500,54.830 }</string>
+								<string>{ -69.250,51.830 }</string>	
+								<string>{ -19.250,1.830 }</string>	
+								<string>{ -6.250,0.830 }</string>	
+								<string>{ -61.250,55.830 }</string>
 							</array>
 							<array>	
-								<string>{ -5.500,-0.170 }</string>	
-								<string>{ -17.500,0.830 }</string>	
-								<string>{ -67.500,-51.170 }</string>	
-								<string>{ -59.500,-56.170 }</string>
+								<string>{ -6.250,0.830 }</string>	
+								<string>{ -19.250,1.830 }</string>	
+								<string>{ -69.250,-50.170 }</string>	
+								<string>{ -61.250,-55.170 }</string>	
+								<string>{ -0.250,-2.170 }</string>
 							</array>
 							<array>	
-								<string>{ -59.500,-56.170 }</string>	
-								<string>{ -67.500,-51.170 }</string>	
-								<string>{ -67.500,-148.170 }</string>	
-								<string>{ -59.500,-139.170 }</string>
+								<string>{ -61.250,-55.170 }</string>	
+								<string>{ -69.250,-50.170 }</string>	
+								<string>{ -69.250,-147.170 }</string>	
+								<string>{ -61.250,-138.170 }</string>
 							</array>
 							<array>	
-								<string>{ 62.500,141.830 }</string>	
-								<string>{ 61.500,53.830 }</string>	
-								<string>{ 70.500,50.830 }</string>	
-								<string>{ 70.500,141.830 }</string>
+								<string>{ 60.750,142.830 }</string>	
+								<string>{ 59.750,54.830 }</string>	
+								<string>{ 68.750,51.830 }</string>	
+								<string>{ 68.750,142.830 }</string>
 							</array>
 							<array>	
-								<string>{ 70.500,50.830 }</string>	
-								<string>{ 61.500,53.830 }</string>	
-								<string>{ 9.500,-0.170 }</string>	
-								<string>{ 21.500,-0.170 }</string>
+								<string>{ 68.750,51.830 }</string>	
+								<string>{ 59.750,54.830 }</string>	
+								<string>{ 7.750,0.830 }</string>	
+								<string>{ 19.750,0.830 }</string>
 							</array>
 							<array>	
-								<string>{ 9.500,-0.170 }</string>	
-								<string>{ 62.500,-56.170 }</string>	
-								<string>{ 69.500,-52.170 }</string>	
-								<string>{ 21.500,-0.170 }</string>
+								<string>{ 7.750,0.830 }</string>	
+								<string>{ 0.750,-2.170 }</string>	
+								<string>{ 60.750,-55.170 }</string>	
+								<string>{ 67.750,-51.170 }</string>	
+								<string>{ 19.750,0.830 }</string>
 							</array>
 							<array>	
-								<string>{ 62.500,-56.170 }</string>	
-								<string>{ 62.500,-139.170 }</string>	
-								<string>{ 70.500,-148.170 }</string>	
-								<string>{ 69.500,-52.170 }</string>
+								<string>{ 60.750,-55.170 }</string>	
+								<string>{ 60.750,-138.170 }</string>	
+								<string>{ 68.750,-147.170 }</string>	
+								<string>{ 67.750,-51.170 }</string>
 							</array>
 							<array>	
-								<string>{ -67.500,-148.170 }</string>	
-								<string>{ 70.500,-148.170 }</string>	
-								<string>{ 62.500,-139.170 }</string>	
-								<string>{ -59.500,-139.170 }</string>
+								<string>{ -69.250,-147.170 }</string>	
+								<string>{ 68.750,-147.170 }</string>	
+								<string>{ 60.750,-138.170 }</string>	
+								<string>{ -61.250,-138.170 }</string>
 							</array>
 						</array>
                     </dict>
