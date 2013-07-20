@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9642CE7C179A5D0400D8C1D3 /* GB2ShapeCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */; };
+		9642CED6179A6FBD00D8C1D3 /* Textures.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED4179A6FBD00D8C1D3 /* Textures.plist */; };
+		9642CED7179A6FBD00D8C1D3 /* Textures.png in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED5179A6FBD00D8C1D3 /* Textures.png */; };
+		9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED8179A703200D8C1D3 /* PhysicsModel.plist */; };
 		96EC7CFB17999D15007659D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFA17999D15007659D0 /* QuartzCore.framework */; };
 		96EC7CFD17999D15007659D0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFC17999D15007659D0 /* OpenGLES.framework */; };
 		96EC7CFF17999D15007659D0 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFE17999D15007659D0 /* OpenAL.framework */; };
@@ -186,10 +190,14 @@
 		96EC7F3517999D1B007659D0 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3417999D1B007659D0 /* IntroLayer.mm */; };
 		96EC7F3817999D1B007659D0 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3717999D1B007659D0 /* GLES-Render.mm */; };
 		96EC7F3A17999D1B007659D0 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7F3917999D1B007659D0 /* blocks.png */; };
-		96EC7F4117999D70007659D0 /* grain.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7F4017999D70007659D0 /* grain.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9642CE7A179A5D0400D8C1D3 /* GB2ShapeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GB2ShapeCache.h; sourceTree = "<group>"; };
+		9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GB2ShapeCache.mm; sourceTree = "<group>"; };
+		9642CED4179A6FBD00D8C1D3 /* Textures.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Textures.plist; path = Resources/Textures.plist; sourceTree = "<group>"; };
+		9642CED5179A6FBD00D8C1D3 /* Textures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Textures.png; path = Resources/Textures.png; sourceTree = "<group>"; };
+		9642CED8179A703200D8C1D3 /* PhysicsModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PhysicsModel.plist; path = Resources/PhysicsModel.plist; sourceTree = "<group>"; };
 		96EC7CF717999D15007659D0 /* BalanceMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BalanceMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96EC7CFA17999D15007659D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		96EC7CFC17999D15007659D0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -565,7 +573,6 @@
 		96EC7F3617999D1B007659D0 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		96EC7F3717999D1B007659D0 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		96EC7F3917999D1B007659D0 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
-		96EC7F4017999D70007659D0 /* grain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grain.png; path = Resources/grain.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +595,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9642CE79179A5D0400D8C1D3 /* PhysicsEditor */ = {
+			isa = PBXGroup;
+			children = (
+				9642CE7A179A5D0400D8C1D3 /* GB2ShapeCache.h */,
+				9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */,
+			);
+			path = PhysicsEditor;
+			sourceTree = "<group>";
+		};
 		96EC7CEE17999D15007659D0 = {
 			isa = PBXGroup;
 			children = (
@@ -624,6 +640,7 @@
 		96EC7D0C17999D15007659D0 /* BalanceMaster */ = {
 			isa = PBXGroup;
 			children = (
+				9642CE79179A5D0400D8C1D3 /* PhysicsEditor */,
 				96EC7F2D17999D1B007659D0 /* AppDelegate.h */,
 				96EC7F2E17999D1B007659D0 /* AppDelegate.mm */,
 				96EC7F3017999D1B007659D0 /* HelloWorldLayer.h */,
@@ -642,7 +659,9 @@
 		96EC7D0D17999D15007659D0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				96EC7F4017999D70007659D0 /* grain.png */,
+				9642CED8179A703200D8C1D3 /* PhysicsModel.plist */,
+				9642CED4179A6FBD00D8C1D3 /* Textures.plist */,
+				9642CED5179A6FBD00D8C1D3 /* Textures.png */,
 				96EC7D0E17999D15007659D0 /* Default.png */,
 				96EC7D1017999D15007659D0 /* Default@2x.png */,
 				96EC7D1217999D15007659D0 /* Default-568h@2x.png */,
@@ -1242,7 +1261,9 @@
 				96EC7D2417999D16007659D0 /* iTunesArtwork in Resources */,
 				96EC7E7A17999D1B007659D0 /* ChangeLog in Resources */,
 				96EC7F3A17999D1B007659D0 /* blocks.png in Resources */,
-				96EC7F4117999D70007659D0 /* grain.png in Resources */,
+				9642CED6179A6FBD00D8C1D3 /* Textures.plist in Resources */,
+				9642CED7179A6FBD00D8C1D3 /* Textures.png in Resources */,
+				9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,6 +1431,7 @@
 				96EC7F3217999D1B007659D0 /* HelloWorldLayer.mm in Sources */,
 				96EC7F3517999D1B007659D0 /* IntroLayer.mm in Sources */,
 				96EC7F3817999D1B007659D0 /* GLES-Render.mm in Sources */,
+				9642CE7C179A5D0400D8C1D3 /* GB2ShapeCache.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1471,12 +1493,14 @@
 				);
 				HEADER_SEARCH_PATHS = "\"BalanceMaster/libs/kazmath/include\"";
 				INFOPLIST_FILE = BalanceMaster/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"BalanceMaster/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1496,12 +1520,14 @@
 				);
 				HEADER_SEARCH_PATHS = "\"BalanceMaster/libs/kazmath/include\"";
 				INFOPLIST_FILE = BalanceMaster/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"BalanceMaster/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1527,6 +1553,7 @@
 				96EC7F3F17999D1B007659D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
