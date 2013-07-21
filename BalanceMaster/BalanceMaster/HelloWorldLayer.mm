@@ -8,14 +8,10 @@
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
-
-// Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
-
-// Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
-
 #import "GB2ShapeCache.h"
+#import "SimpleAudioEngine.h"
 
 enum {
 	kTagParentNode = 1,
@@ -29,8 +25,8 @@ enum {
 //#define GRAIN_COUNT 100
 #define GRAIN_DROPPING_DURATION_NORMAL 0.5
 #define GRAIN_RADIUS 6
-#define INITIAL_ROW_COUNT 16
-#define INITIAL_COLUMN_COUNT 16
+#define INITIAL_ROW_COUNT 20
+#define INITIAL_COLUMN_COUNT 12
 #define FAST_DROPPING_THEASHOLD 0.2
 
 //@interface HelloWorldLayer()
@@ -43,7 +39,8 @@ enum {
     CGSize WIN_SIZE;
     CCSpriteBatchNode *spritesheet;
     
-    b2Body *availableGrains[INITIAL_ROW_COUNT*INITIAL_COLUMN_COUNT];
+    b2Body *allGrains[INITIAL_ROW_COUNT*INITIAL_COLUMN_COUNT];
+//    b2Body *availableGrains[INITIAL_ROW_COUNT*INITIAL_COLUMN_COUNT];
     NSMutableArray *availableGrainsIndex;
     double grainDroppingDuration;
     
@@ -58,6 +55,8 @@ enum {
     CCMenuItemLabel *menuItemStart;
     CCMenuItemLabel *menuItemReset;
     BOOL paused;
+    
+    int grainsCount;
 }
 
 +(CCScene *) scene{
@@ -97,6 +96,8 @@ enum {
         
         [self initAccelerometer];
         //		self.touchEnabled = YES;
+        
+        [self initAudio];
 		
 		[self scheduleUpdate];
         
@@ -211,7 +212,11 @@ enum {
 }
 
 -(void)onReset{
-    [[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
+//    [[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
+    paused = YES;
+    grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
+    [self resetGrains];
+    [menuItemStart setString:@"Start"];
 }
 
 #pragma mark - Physics
@@ -263,14 +268,81 @@ enum {
 
 -(void)populateGrains{
     availableGrainsIndex = [[NSMutableArray alloc] init];
+    int index = 0;
+    
+    //triangle area
+    for (int row = 0; row < INITIAL_COLUMN_COUNT; row++) {
+        for (int n = 0; n < row; n++) {
+            b2Body *body = [self addNewGrain];
+            allGrains[index] = body;
+            index++;
+        }
+    }
+    
+    //rectangle area
+    for (int row = INITIAL_COLUMN_COUNT; row < INITIAL_ROW_COUNT; row++) {
+        for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
+            b2Body *body = [self addNewGrain];
+            allGrains[index] = body;
+            index ++;
+        }
+    }
+}
+
+-(void)resetGrains{
+    [availableGrainsIndex removeAllObjects];
+    int index = 0;
+    
+    //triangle area
+    for (int row = 0; row < INITIAL_COLUMN_COUNT; row++) {
+        for (int n = 0; n < row; n++) {
+            CGPoint point = ccp(WIN_SIZE.width/2 - row * GRAIN_RADIUS/2 + n * GRAIN_RADIUS, WIN_SIZE.height/2 + 50 + row * GRAIN_RADIUS);
+            b2Body *body = allGrains[index];
+            body->SetTransform([self toMeters:point], 0);
+            body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
+            [availableGrainsIndex addObject:[NSNumber numberWithInt:index]];
+            index++;
+        }
+    }
+    
+    //rectangle area
+    for (int row = INITIAL_COLUMN_COUNT; row < INITIAL_ROW_COUNT; row++) {
+        for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
+            CGPoint point = ccp(WIN_SIZE.width/2 - INITIAL_COLUMN_COUNT*GRAIN_RADIUS/2 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 50 + row * GRAIN_RADIUS);
+            b2Body *body = allGrains[index];
+            body->SetTransform([self toMeters:point], 0);
+            body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
+            [availableGrainsIndex addObject:[NSNumber numberWithInt:index]];
+            index++;
+        }
+    }
+}
+
+-(void)populateGrains2{
+    availableGrainsIndex = [[NSMutableArray alloc] init];
+    for (int row = 0; row<INITIAL_ROW_COUNT; row++) {
+        for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
+            b2Body *body = [self addNewGrain];
+            int index = row * INITIAL_ROW_COUNT + column;
+            allGrains[index] = body;
+        } 
+    }
+    
+    [self resetGrains];
+}
+
+-(void)resetGrains2{
+    [availableGrainsIndex removeAllObjects];
     for (int row = 0; row<INITIAL_ROW_COUNT; row++) {
         for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
             CGPoint point = ccp(WIN_SIZE.width/2 - INITIAL_COLUMN_COUNT*GRAIN_RADIUS/2 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 150 - row*GRAIN_RADIUS);
-            b2Body *body = [self addNewSpriteAtPosition:point];
+            
             int index = row * INITIAL_ROW_COUNT + column;
-            availableGrains[index] = body;
+            b2Body *body = allGrains[index];
+            body->SetTransform([self toMeters:point], 0);
+            body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
             [availableGrainsIndex addObject:[NSNumber numberWithInt:index]];
-        } 
+        }
     }
 }
 
@@ -281,13 +353,13 @@ enum {
     
     if ([availableGrainsIndex count]>0) {
 //        int random = arc4random() % [availableGrainsIndex count];
-        int random = [availableGrainsIndex count] -1;
-        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:random];
-        b2Body *body = availableGrains[[indexNum intValue]];
-        world->DestroyBody(body);
-        [availableGrainsIndex removeObjectAtIndex:random];
-        [self addNewSpriteAtPosition:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)];
+        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
+        b2Body *body = allGrains[[indexNum intValue]];
+        body->SetTransform([self toMeters:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)], 0);
+//        world->DestroyBody(body);
+        [availableGrainsIndex removeObject:indexNum];
         [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
+        [self playDropSound];
     }
 }
 
@@ -301,22 +373,20 @@ int droppedGrainCount = 0;
     }
 }
 
--(b2Body *) addNewSpriteAtPosition:(CGPoint)p{
-    //	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
+-(b2Body *) addNewGrain{
     CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithSpriteFrameName:@"grain.png"];
 	[spritesheet addChild:sprite z:1];
 	
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
-//    bodyDef.userData = sprite;
+//    bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
 	b2Body *body = world->CreateBody(&bodyDef);
     
     // add the fixture definitions to the body
     [[GB2ShapeCache sharedShapeCache] addFixturesToBody:body forShapeName:@"grain"];
     [sprite setAnchorPoint:[[GB2ShapeCache sharedShapeCache] anchorPointForShape:@"grain"]];
 	
-//    [sprite setPosition: ccp( p.x, p.y)];
+    //    [sprite setPosition: ccp( p.x, p.y)];
 	[sprite setPTMRatio:PTM_RATIO];
 	[sprite setB2Body:body];
     
@@ -397,6 +467,16 @@ int droppedGrainCount = 0;
     else{
         grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
     }
+}
+
+#pragma mark - Audio
+-(void)initAudio{
+    return;
+    [[SimpleAudioEngine sharedEngine] preloadEffect:@"drop_sfx.wav"];
+}
+
+-(void)playDropSound{
+    [[SimpleAudioEngine sharedEngine] playEffect:@"drop_sfx.wav"];
 }
 
 #pragma mark - Utility
