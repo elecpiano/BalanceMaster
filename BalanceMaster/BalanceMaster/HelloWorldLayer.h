@@ -18,10 +18,10 @@
 //This ratio defines how many pixels correspond to 1 Box2D "metre"
 //Box2D is optimized for objects of 1x1 metre therefore it makes sense
 //to define the ratio so that your most common object type is 1x1 metre.
-#define PTM_RATIO 32
+#define PTM_RATIO 16
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
+@interface HelloWorldLayer : CCLayer
 {
 //	CCTexture2D *spriteTexture_;	// weak ref
 	b2World* world;					// strong ref

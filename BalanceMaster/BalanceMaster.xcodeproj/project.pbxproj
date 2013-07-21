@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9642CE7C179A5D0400D8C1D3 /* GB2ShapeCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */; };
-		9642CED6179A6FBD00D8C1D3 /* Textures.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED4179A6FBD00D8C1D3 /* Textures.plist */; };
-		9642CED7179A6FBD00D8C1D3 /* Textures.png in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED5179A6FBD00D8C1D3 /* Textures.png */; };
 		9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED8179A703200D8C1D3 /* PhysicsModel.plist */; };
+		967C3EFF179AD6B0007CFC21 /* Textures-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFB179AD6B0007CFC21 /* Textures-hd.plist */; };
+		967C3F00179AD6B0007CFC21 /* Textures-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFC179AD6B0007CFC21 /* Textures-hd.png */; };
+		967C3F01179AD6B0007CFC21 /* Textures.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFD179AD6B0007CFC21 /* Textures.plist */; };
+		967C3F02179AD6B0007CFC21 /* Textures.png in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFE179AD6B0007CFC21 /* Textures.png */; };
 		96EC7CFB17999D15007659D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFA17999D15007659D0 /* QuartzCore.framework */; };
 		96EC7CFD17999D15007659D0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFC17999D15007659D0 /* OpenGLES.framework */; };
 		96EC7CFF17999D15007659D0 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFE17999D15007659D0 /* OpenAL.framework */; };
@@ -195,9 +197,11 @@
 /* Begin PBXFileReference section */
 		9642CE7A179A5D0400D8C1D3 /* GB2ShapeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GB2ShapeCache.h; sourceTree = "<group>"; };
 		9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GB2ShapeCache.mm; sourceTree = "<group>"; };
-		9642CED4179A6FBD00D8C1D3 /* Textures.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Textures.plist; path = Resources/Textures.plist; sourceTree = "<group>"; };
-		9642CED5179A6FBD00D8C1D3 /* Textures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Textures.png; path = Resources/Textures.png; sourceTree = "<group>"; };
 		9642CED8179A703200D8C1D3 /* PhysicsModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PhysicsModel.plist; path = Resources/PhysicsModel.plist; sourceTree = "<group>"; };
+		967C3EFB179AD6B0007CFC21 /* Textures-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Textures-hd.plist"; path = "Resources/Textures-hd.plist"; sourceTree = "<group>"; };
+		967C3EFC179AD6B0007CFC21 /* Textures-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Textures-hd.png"; path = "Resources/Textures-hd.png"; sourceTree = "<group>"; };
+		967C3EFD179AD6B0007CFC21 /* Textures.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Textures.plist; path = Resources/Textures.plist; sourceTree = "<group>"; };
+		967C3EFE179AD6B0007CFC21 /* Textures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Textures.png; path = Resources/Textures.png; sourceTree = "<group>"; };
 		96EC7CF717999D15007659D0 /* BalanceMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BalanceMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96EC7CFA17999D15007659D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		96EC7CFC17999D15007659D0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -659,9 +663,11 @@
 		96EC7D0D17999D15007659D0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				967C3EFB179AD6B0007CFC21 /* Textures-hd.plist */,
+				967C3EFC179AD6B0007CFC21 /* Textures-hd.png */,
+				967C3EFD179AD6B0007CFC21 /* Textures.plist */,
+				967C3EFE179AD6B0007CFC21 /* Textures.png */,
 				9642CED8179A703200D8C1D3 /* PhysicsModel.plist */,
-				9642CED4179A6FBD00D8C1D3 /* Textures.plist */,
-				9642CED5179A6FBD00D8C1D3 /* Textures.png */,
 				96EC7D0E17999D15007659D0 /* Default.png */,
 				96EC7D1017999D15007659D0 /* Default@2x.png */,
 				96EC7D1217999D15007659D0 /* Default-568h@2x.png */,
@@ -1261,9 +1267,11 @@
 				96EC7D2417999D16007659D0 /* iTunesArtwork in Resources */,
 				96EC7E7A17999D1B007659D0 /* ChangeLog in Resources */,
 				96EC7F3A17999D1B007659D0 /* blocks.png in Resources */,
-				9642CED6179A6FBD00D8C1D3 /* Textures.plist in Resources */,
-				9642CED7179A6FBD00D8C1D3 /* Textures.png in Resources */,
 				9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */,
+				967C3EFF179AD6B0007CFC21 /* Textures-hd.plist in Resources */,
+				967C3F00179AD6B0007CFC21 /* Textures-hd.png in Resources */,
+				967C3F01179AD6B0007CFC21 /* Textures.plist in Resources */,
+				967C3F02179AD6B0007CFC21 /* Textures.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
