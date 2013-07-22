@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9621D868179D7AEB00E38F17 /* BMFont-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9621D864179D7AEB00E38F17 /* BMFont-hd.fnt */; };
+		9621D869179D7AEB00E38F17 /* BMFont-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 9621D865179D7AEB00E38F17 /* BMFont-hd.png */; };
+		9621D86A179D7AEB00E38F17 /* BMFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 9621D866179D7AEB00E38F17 /* BMFont.fnt */; };
+		9621D86B179D7AEB00E38F17 /* BMFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 9621D867179D7AEB00E38F17 /* BMFont.png */; };
 		96246694179C3D2400235F78 /* drop_sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96246693179C3D2400235F78 /* drop_sfx.wav */; };
 		9642CE7C179A5D0400D8C1D3 /* GB2ShapeCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */; };
 		9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9642CED8179A703200D8C1D3 /* PhysicsModel.plist */; };
@@ -197,6 +201,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9621D864179D7AEB00E38F17 /* BMFont-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "BMFont-hd.fnt"; sourceTree = "<group>"; };
+		9621D865179D7AEB00E38F17 /* BMFont-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BMFont-hd.png"; sourceTree = "<group>"; };
+		9621D866179D7AEB00E38F17 /* BMFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BMFont.fnt; sourceTree = "<group>"; };
+		9621D867179D7AEB00E38F17 /* BMFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BMFont.png; sourceTree = "<group>"; };
 		96246693179C3D2400235F78 /* drop_sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = drop_sfx.wav; path = Resources/drop_sfx.wav; sourceTree = "<group>"; };
 		9642CE7A179A5D0400D8C1D3 /* GB2ShapeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GB2ShapeCache.h; sourceTree = "<group>"; };
 		9642CE7B179A5D0400D8C1D3 /* GB2ShapeCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GB2ShapeCache.mm; sourceTree = "<group>"; };
@@ -604,6 +612,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9621D863179D7AEB00E38F17 /* BMFont */ = {
+			isa = PBXGroup;
+			children = (
+				9621D864179D7AEB00E38F17 /* BMFont-hd.fnt */,
+				9621D865179D7AEB00E38F17 /* BMFont-hd.png */,
+				9621D866179D7AEB00E38F17 /* BMFont.fnt */,
+				9621D867179D7AEB00E38F17 /* BMFont.png */,
+			);
+			name = BMFont;
+			path = Resources/BMFont;
+			sourceTree = "<group>";
+		};
 		9642CE79179A5D0400D8C1D3 /* PhysicsEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,6 +698,7 @@
 		96EC7D0D17999D15007659D0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9621D863179D7AEB00E38F17 /* BMFont */,
 				96246693179C3D2400235F78 /* drop_sfx.wav */,
 				967C3EFB179AD6B0007CFC21 /* Textures-hd.plist */,
 				967C3EFC179AD6B0007CFC21 /* Textures-hd.png */,
@@ -1289,6 +1310,10 @@
 				967C3F01179AD6B0007CFC21 /* Textures.plist in Resources */,
 				967C3F02179AD6B0007CFC21 /* Textures.png in Resources */,
 				96246694179C3D2400235F78 /* drop_sfx.wav in Resources */,
+				9621D868179D7AEB00E38F17 /* BMFont-hd.fnt in Resources */,
+				9621D869179D7AEB00E38F17 /* BMFont-hd.png in Resources */,
+				9621D86A179D7AEB00E38F17 /* BMFont.fnt in Resources */,
+				9621D86B179D7AEB00E38F17 /* BMFont.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

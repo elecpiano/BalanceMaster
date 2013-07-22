@@ -23,18 +23,11 @@ enum {
 
 #pragma mark - Constants
 
-//#define GRAIN_COUNT 100
 #define GRAIN_DROPPING_DURATION_NORMAL 0.5
 #define GRAIN_RADIUS 6
 #define INITIAL_ROW_COUNT 20
 #define INITIAL_COLUMN_COUNT 12
 #define FAST_DROPPING_THEASHOLD 0.2
-
-//@interface HelloWorldLayer()
-//-(void) initPhysics;
-//-(b2Body *) addNewSpriteAtPosition:(CGPoint)p;
-//-(void) createMenu;
-//@end
 
 @implementation HelloWorldLayer{
     CGSize WIN_SIZE;
@@ -60,6 +53,8 @@ enum {
     int grainsCount;
     
     ScoreboardItem *sbItem_1;
+    CCLabelBMFont *countdownTimerLabel;
+    int totalSecond, tenthSecond;
 }
 
 +(CCScene *) scene{
@@ -103,17 +98,12 @@ enum {
         [self initAudio];
         
         [self initScoreboard];
+        [self initCountdownTimer];
 		
 		[self scheduleUpdate];
         
         grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
         paused = YES;
-        
-//        ////////////
-//        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"0u.png"];
-//        CCSprite *sprite = [CCSprite spriteWithSpriteFrame:frame];
-//        [spritesheet addChild:sprite];
-//        sprite.position = ccp(WIN_SIZE.width/2, 50);
 	}
 	return self;
 }
@@ -222,6 +212,7 @@ enum {
         paused = NO;
         [self calibrate];
         [self generateNextGrain];
+        [self countDown];
         [menuItemStart setString:@"Pause"];
     }
     else
@@ -236,6 +227,7 @@ enum {
     paused = YES;
     grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
     [self resetGrains];
+    [self resetCountdown];
     [menuItemStart setString:@"Start"];
 }
 
@@ -373,7 +365,7 @@ enum {
     
     if ([availableGrainsIndex count]>0) {
 //        int random = arc4random() % [availableGrainsIndex count];
-        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
+        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:0]; //[availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
         b2Body *body = allGrains[[indexNum intValue]];
         body->SetTransform([self toMeters:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)], 0);
 //        world->DestroyBody(body);
@@ -381,16 +373,6 @@ enum {
         [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
         [self playDropSound];
         [self addScore];
-    }
-}
-
-int droppedGrainCount = 0;
--(void) generateNextGrain2{
-    
-    if (droppedGrainCount<INITIAL_ROW_COUNT*INITIAL_COLUMN_COUNT) {
-        [self addNewSpriteAtPosition:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)];
-        [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
-        droppedGrainCount++;
     }
 }
 
@@ -508,6 +490,48 @@ int droppedGrainCount = 0;
 
 -(void)addScore{
     [sbItem_1 increase];
+}
+
+#pragma mark - Countdown Timer
+-(void)initCountdownTimer{
+    countdownTimerLabel = [CCLabelBMFont labelWithString:@"00:00.0" fntFile:@"BMFont.fnt"];
+    countdownTimerLabel.alignment = kCCTextAlignmentLeft;
+    countdownTimerLabel.anchorPoint = ccp(0,0.7f);
+    countdownTimerLabel.position = ccp(50, WIN_SIZE.height - 100);
+    [self addChild:countdownTimerLabel z:0];
+    
+    [self resetCountdown];
+}
+
+-(void)resetCountdown{
+    [countdownTimerLabel setString:@"00:00.0"];
+    totalSecond = 0;
+    tenthSecond = 0;
+}
+
+-(void)countDown{
+    if (paused) {
+        return;
+    }
+    
+    if (tenthSecond==9) {
+        tenthSecond = 0;
+        totalSecond++;
+    }
+    else{
+        tenthSecond++;
+    }
+    
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+    [dateFormat setDateFormat:@"HH:mm:ss"];//设定时间格式,这里可以设置成自己需要的格式
+    NSString *currentDateStr = [dateFormat stringFromDate:[NSDate date]];
+
+    
+    NSString *timeStr = [NSString stringWithFormat:@"%02d:%02d.%d", (totalSecond/60),(totalSecond%60),tenthSecond];
+    timeStr = [NSString stringWithFormat:@"%@    %@",timeStr,currentDateStr];
+    [countdownTimerLabel setString:timeStr];
+    
+    [self performSelector:@selector(countDown) withObject:self afterDelay:0.1];
 }
 
 @end
