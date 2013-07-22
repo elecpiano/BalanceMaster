@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "GB2ShapeCache.h"
 #import "SimpleAudioEngine.h"
+#import "ScoreboardItem.h"
 
 enum {
 	kTagParentNode = 1,
@@ -57,6 +58,8 @@ enum {
     BOOL paused;
     
     int grainsCount;
+    
+    ScoreboardItem *sbItem_1;
 }
 
 +(CCScene *) scene{
@@ -98,11 +101,19 @@ enum {
         //		self.touchEnabled = YES;
         
         [self initAudio];
+        
+        [self initScoreboard];
 		
 		[self scheduleUpdate];
         
         grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
         paused = YES;
+        
+//        ////////////
+//        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"0u.png"];
+//        CCSprite *sprite = [CCSprite spriteWithSpriteFrame:frame];
+//        [spritesheet addChild:sprite];
+//        sprite.position = ccp(WIN_SIZE.width/2, 50);
 	}
 	return self;
 }
@@ -169,6 +180,15 @@ enum {
     
     ccDrawColor4B(0,255,255,255);
     ccDrawLine(ccp(WIN_SIZE.width/2, 30), ccp(WIN_SIZE.width/2 + diff * 100, 30));
+}
+
+#pragma mark - Utility
+-(b2Vec2) toMeters:(CGPoint)point{
+    return b2Vec2(point.x / PTM_RATIO, point.y / PTM_RATIO);
+}
+
+-(CGPoint) toPixels:(b2Vec2)vec{
+    return ccpMult(CGPointMake(vec.x, vec.y), PTM_RATIO);
 }
 
 #pragma mark - Menu
@@ -360,6 +380,7 @@ enum {
         [availableGrainsIndex removeObject:indexNum];
         [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
         [self playDropSound];
+        [self addScore];
     }
 }
 
@@ -479,13 +500,14 @@ int droppedGrainCount = 0;
     [[SimpleAudioEngine sharedEngine] playEffect:@"drop_sfx.wav"];
 }
 
-#pragma mark - Utility
--(b2Vec2) toMeters:(CGPoint)point{
-    return b2Vec2(point.x / PTM_RATIO, point.y / PTM_RATIO);
+#pragma mark - Scoreboard
+-(void)initScoreboard{
+    sbItem_1 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
+    sbItem_1.position = ccp(WIN_SIZE.width/2, 50);
 }
 
--(CGPoint) toPixels:(b2Vec2)vec{
-    return ccpMult(CGPointMake(vec.x, vec.y), PTM_RATIO);
+-(void)addScore{
+    [sbItem_1 increase];
 }
 
 @end
