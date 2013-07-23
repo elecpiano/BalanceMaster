@@ -26,7 +26,7 @@ enum {
 #define GRAIN_DROPPING_DURATION_NORMAL 0.5
 #define GRAIN_RADIUS 6
 #define INITIAL_ROW_COUNT 20
-#define INITIAL_COLUMN_COUNT 12
+#define INITIAL_COLUMN_COUNT 18
 #define FAST_DROPPING_THEASHOLD 0.2
 
 @implementation HelloWorldLayer{
@@ -46,15 +46,19 @@ enum {
     BOOL toCalibrate;
     BOOL shake_once;
     
-    CCMenuItemLabel *menuItemStart;
-    CCMenuItemLabel *menuItemReset;
+    CCMenuItemLabel *menuItemStart, *menuItemReset, *menuItemAudio;
     BOOL paused;
+    BOOL needsToResetOnStart;
+    BOOL muted;
     
     int grainsCount;
     
-    ScoreboardItem *sbItem_1;
-    CCLabelBMFont *countdownTimerLabel;
-    int totalSecond, tenthSecond;
+    ScoreboardItem *sbItem_1, *sbItem_10, *sbItem_100;
+    int dropCount;
+    
+    CCLabelBMFont *timerLabel;
+    ccTime elapsedTime, elapsedTimeTS;// TS for tenth second
+    int displaySeconds, displayTS;
 }
 
 +(CCScene *) scene{
@@ -98,12 +102,11 @@ enum {
         [self initAudio];
         
         [self initScoreboard];
-        [self initCountdownTimer];
-		
-		[self scheduleUpdate];
+        [self initTimer];
         
-        grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
-        paused = YES;
+        [self onReset];
+        
+        [self scheduleUpdate];
 	}
 	return self;
 }
@@ -126,12 +129,13 @@ enum {
 	//You need to make an informed choice, the following URL is useful
 	//http://gafferongames.com/game-physics/fix-your-timestep/
 	
-	int32 velocityIterations = 8;
+	int32 velocityIterations = 4;//8
 	int32 positionIterations = 1;
 	
 	// Instruct the world to perform a single step of simulation. It is
 	// generally best to keep the time step and iterations fixed.
 	world->Step(dt, velocityIterations, positionIterations);
+    [self updateTimer:dt];
 }
 
 -(void) draw{
@@ -196,23 +200,36 @@ enum {
 		[self onReset];
 	}];
 
-	// to avoid a retain-cycle with the menuitem and blocks
-	__block id copy_self = self;
+//	// to avoid a retain-cycle with the menuitem and blocks
+//	__block id copy_self = self;
 	
 	CCMenu *menu = [CCMenu menuWithItems: menuItemStart, menuItemReset, nil];
-	
 	[menu alignItemsVertically];
 	[menu setPosition:ccp( WIN_SIZE.width - 60, WIN_SIZE.height/2)];
-	
-	[self addChild: menu z:-1];	
+	[self addChild:menu z:-1];
+    
+    //audio menu
+    menuItemAudio = [CCMenuItemFont itemWithString:@"Disable" block:^(id sender) {
+        [self onAudio];
+    }];
+    
+    CCMenu *menuAudio = [CCMenu menuWithItems: menuItemAudio, nil];
+	[menuAudio alignItemsVertically];
+	[menuAudio setPosition:ccp(50, WIN_SIZE.height-30)];
+    [self addChild:menuAudio z:-1];
 }
 
 -(void)onStart{
+    if (needsToResetOnStart) {
+        [self onReset];
+        needsToResetOnStart = NO;
+    }
+    
     if (paused) {
         paused = NO;
         [self calibrate];
         [self generateNextGrain];
-        [self countDown];
+//        [self timerTick];
         [menuItemStart setString:@"Pause"];
     }
     else
@@ -227,7 +244,14 @@ enum {
     paused = YES;
     grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;
     [self resetGrains];
-    [self resetCountdown];
+    [self resetTimer];
+    [self resetScoreboard];
+    [menuItemStart setString:@"Start"];
+}
+
+-(void)onFinish{
+    paused = YES;
+    needsToResetOnStart = YES;
     [menuItemStart setString:@"Start"];
 }
 
@@ -283,8 +307,8 @@ enum {
     int index = 0;
     
     //triangle area
-    for (int row = 0; row < INITIAL_COLUMN_COUNT; row++) {
-        for (int n = 0; n < row; n++) {
+    for (int row = 0; row < INITIAL_COLUMN_COUNT/2; row++) {
+        for (int n = 0; n < (row*2+1); n++) {
             b2Body *body = [self addNewGrain];
             allGrains[index] = body;
             index++;
@@ -292,7 +316,7 @@ enum {
     }
     
     //rectangle area
-    for (int row = INITIAL_COLUMN_COUNT; row < INITIAL_ROW_COUNT; row++) {
+    for (int row = INITIAL_COLUMN_COUNT/2; row < INITIAL_ROW_COUNT; row++) {
         for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
             b2Body *body = [self addNewGrain];
             allGrains[index] = body;
@@ -306,9 +330,9 @@ enum {
     int index = 0;
     
     //triangle area
-    for (int row = 0; row < INITIAL_COLUMN_COUNT; row++) {
-        for (int n = 0; n < row; n++) {
-            CGPoint point = ccp(WIN_SIZE.width/2 - row * GRAIN_RADIUS/2 + n * GRAIN_RADIUS, WIN_SIZE.height/2 + 50 + row * GRAIN_RADIUS);
+    for (int row = 0; row < INITIAL_COLUMN_COUNT/2; row++) {
+        for (int n = 0; n < (row*2+1); n++) {
+            CGPoint point = ccp(WIN_SIZE.width/2 - row * GRAIN_RADIUS/2 + n * GRAIN_RADIUS, WIN_SIZE.height/2 + 20 + row * GRAIN_RADIUS);
             b2Body *body = allGrains[index];
             body->SetTransform([self toMeters:point], 0);
             body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
@@ -318,9 +342,9 @@ enum {
     }
     
     //rectangle area
-    for (int row = INITIAL_COLUMN_COUNT; row < INITIAL_ROW_COUNT; row++) {
+    for (int row = INITIAL_COLUMN_COUNT/2; row < INITIAL_ROW_COUNT; row++) {
         for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
-            CGPoint point = ccp(WIN_SIZE.width/2 - INITIAL_COLUMN_COUNT*GRAIN_RADIUS/2 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 50 + row * GRAIN_RADIUS);
+            CGPoint point = ccp(WIN_SIZE.width/2 - INITIAL_COLUMN_COUNT*GRAIN_RADIUS/2 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 20 + row * GRAIN_RADIUS);
             b2Body *body = allGrains[index];
             body->SetTransform([self toMeters:point], 0);
             body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
@@ -372,7 +396,10 @@ enum {
         [availableGrainsIndex removeObject:indexNum];
         [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
         [self playDropSound];
-        [self addScore];
+        [self countDrop];
+    }
+    else{
+        [self onFinish];
     }
 }
 
@@ -479,59 +506,86 @@ enum {
 }
 
 -(void)playDropSound{
+    if (muted) {
+        return;
+    }
     [[SimpleAudioEngine sharedEngine] playEffect:@"drop_sfx.wav"];
+}
+
+-(void)onAudio{
+    if (!muted) {
+        [menuItemAudio setString:@"Enable"];
+    }
+    else{
+        [menuItemAudio setString:@"Disable"];
+    }
+    muted = !muted;
 }
 
 #pragma mark - Scoreboard
 -(void)initScoreboard{
     sbItem_1 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
-    sbItem_1.position = ccp(WIN_SIZE.width/2, 50);
+    sbItem_1.position = ccp(WIN_SIZE.width/2+30, 50);
+    
+    sbItem_10 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
+    sbItem_10.position = ccp(WIN_SIZE.width/2+0, 50);
+    
+    sbItem_100 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
+    sbItem_100.position = ccp(WIN_SIZE.width/2-30, 50);
 }
 
--(void)addScore{
-    [sbItem_1 increase];
+-(void)resetScoreboard{
+    dropCount = 0;
+    [sbItem_1 setNumber:0];
+    [sbItem_10 setNumber:0];
+    [sbItem_100 setNumber:0];
+}
+
+-(void)countDrop{
+    dropCount++;
+    [sbItem_1 setNumber:dropCount % 10];
+    [sbItem_10 setNumber:(int)(dropCount/10) % 10];
+    [sbItem_100 setNumber:(int)(dropCount/100) % 10];
 }
 
 #pragma mark - Countdown Timer
--(void)initCountdownTimer{
-    countdownTimerLabel = [CCLabelBMFont labelWithString:@"00:00.0" fntFile:@"BMFont.fnt"];
-    countdownTimerLabel.alignment = kCCTextAlignmentLeft;
-    countdownTimerLabel.anchorPoint = ccp(0,0.7f);
-    countdownTimerLabel.position = ccp(50, WIN_SIZE.height - 100);
-    [self addChild:countdownTimerLabel z:0];
+-(void)initTimer{
+    timerLabel = [CCLabelBMFont labelWithString:@"00:00.0" fntFile:@"BMFont.fnt"];
+    timerLabel.alignment = kCCTextAlignmentLeft;
+    timerLabel.anchorPoint = ccp(0,0.7f);
+    timerLabel.position = ccp(50, WIN_SIZE.height - 100);
+    [self addChild:timerLabel z:0];
     
-    [self resetCountdown];
+    [self resetTimer];
 }
 
--(void)resetCountdown{
-    [countdownTimerLabel setString:@"00:00.0"];
-    totalSecond = 0;
-    tenthSecond = 0;
+-(void)resetTimer{
+    [timerLabel setString:@"00:00.0"];
+    elapsedTime = 0;
+    elapsedTimeTS = 0;
+    displaySeconds = 0;
+    displayTS = 0;
 }
 
--(void)countDown{
+-(void)updateTimer:(ccTime)dt{
     if (paused) {
         return;
     }
-    
-    if (tenthSecond==9) {
-        tenthSecond = 0;
-        totalSecond++;
+    elapsedTime += dt;
+    elapsedTimeTS += dt*10;
+    if (displayTS < (int)elapsedTimeTS) {
+        displayTS = (int)elapsedTimeTS;
+        if (displaySeconds<(int)elapsedTime) {
+            displaySeconds = (int)elapsedTime;
+        }
+        
+        [timerLabel setString:[NSString stringWithFormat:@"%.2d:%.2d.%d", (int)displaySeconds/60, (int)displaySeconds % 60, (int)displayTS % 10]];
+        
+//        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+//        [dateFormat setDateFormat:@"HH:mm:ss"];//设定时间格式,这里可以设置成自己需要的格式
+//        NSString *currentDateStr = [dateFormat stringFromDate:[NSDate date]];        
+//        [timerLabel setString:[NSString stringWithFormat:@"%.2d:%.2d.%d  %@", (int)displaySeconds/60, (int)displaySeconds % 60, (int)displayTS % 10, currentDateStr]];
     }
-    else{
-        tenthSecond++;
-    }
-    
-    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
-    [dateFormat setDateFormat:@"HH:mm:ss"];//设定时间格式,这里可以设置成自己需要的格式
-    NSString *currentDateStr = [dateFormat stringFromDate:[NSDate date]];
-
-    
-    NSString *timeStr = [NSString stringWithFormat:@"%02d:%02d.%d", (totalSecond/60),(totalSecond%60),tenthSecond];
-    timeStr = [NSString stringWithFormat:@"%@    %@",timeStr,currentDateStr];
-    [countdownTimerLabel setString:timeStr];
-    
-    [self performSelector:@selector(countDown) withObject:self afterDelay:0.1];
 }
 
 @end

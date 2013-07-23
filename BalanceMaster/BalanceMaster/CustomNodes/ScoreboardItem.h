@@ -13,9 +13,12 @@
     
 }
 
+@property (nonatomic) int number;
+
 -(id)initWithSpritesheet:(CCSpriteBatchNode *)spritesheet Number:(int)number;
 -(void)setPosition:(CGPoint)position;
--(void)increase;
--(void)decrease;
+//-(void)increase;
+//-(void)decrease;
+-(void)setNumber:(int)num;
 
 @end

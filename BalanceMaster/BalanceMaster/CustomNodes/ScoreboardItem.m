@@ -20,8 +20,6 @@
     
     NSMutableArray *frames_u;
     NSMutableArray *frames_d;
-    
-    int currentNumber;
 }
 
 -(id)initWithSpritesheet:(CCSpriteBatchNode *)spritesheet Number:(int)number{
@@ -47,7 +45,7 @@
         sprite_ad.scaleY = 0;
         [_spritesheet addChild:sprite_ad];
         
-        currentNumber = number;
+        self.number = number;
     }
     return self;
 }
@@ -102,7 +100,7 @@
 }
 
 -(void)beginSetNumberFrom:(int)from To:(int)to{
-    currentNumber = to;
+    _number = to;
     [sprite_u setDisplayFrame:[frames_u objectAtIndex:to]];
     [sprite_au setDisplayFrame:[frames_u objectAtIndex:from]];
     sprite_au.scaleY = 1;
@@ -114,7 +112,7 @@
 }
 
 -(void)continueSetNumber{
-    [sprite_ad setDisplayFrame:[frames_d objectAtIndex:currentNumber]];
+    [sprite_ad setDisplayFrame:[frames_d objectAtIndex:self.number]];
     CCScaleTo *scaleAction = [CCScaleTo actionWithDuration:FLIP_DURATION scaleX:1 scaleY:1];
     CCCallFunc *callFuncAction = [CCCallFunc actionWithTarget:self selector:@selector(finishSetNumber)];
     CCSequence *sequenceAction = [CCSequence actions:scaleAction,callFuncAction, nil];
@@ -122,16 +120,23 @@
 }
 
 -(void)finishSetNumber{
-    [sprite_d setDisplayFrame:[frames_d objectAtIndex:currentNumber]];
+    [sprite_d setDisplayFrame:[frames_d objectAtIndex:self.number]];
     sprite_ad.scaleY = 0;
 }
 
 -(void)increase{
-    [self beginSetNumberFrom:currentNumber To:[self getNextNumber:currentNumber]];
+    [self beginSetNumberFrom:self.number To:[self getNextNumber:self.number]];
 }
 
 -(void)decrease{
-    [self beginSetNumberFrom:currentNumber To:[self getPreviousNumber:currentNumber]];
+    [self beginSetNumberFrom:self.number To:[self getPreviousNumber:self.number]];
+}
+
+-(void)setNumber:(int)num{
+    if (num == self.number) {
+        return;
+    }
+    [self beginSetNumberFrom:_number To:num];
 }
 
 @end
