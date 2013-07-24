@@ -18,12 +18,12 @@
 			<key>bottle</key>
 			<dict>
 				<key>anchorpoint</key>
-                <string>{ 0.5000,0.5000 }</string>
+                <string>{ 0.5016,0.4828 }</string>
 				<key>fixtures</key>
 				<array>
 
 					<dict>
-                        <key>density</key> <real>2</real>
+                        <key>density</key> <real>1</real>
                         <key>friction</key> <real>0</real>
                         <key>restitution</key> <real>0</real>
                         <key>filter_categoryBits</key> <integer>1</integer>
@@ -36,70 +36,58 @@
 						<key>polygons</key>
 						<array>
 							<array>	
-								<string>{ 1.000,3.000 }</string>	
-								<string>{ 25.750,-6.250 }</string>	
-								<string>{ 15.000,5.000 }</string>
+								<string>{ 121.500,301.000 }</string>	
+								<string>{ 121.500,128.000 }</string>	
+								<string>{ 137.500,121.000 }</string>	
+								<string>{ 137.500,301.000 }</string>
 							</array>
 							<array>	
-								<string>{ 0.000,3.000 }</string>	
-								<string>{ -11.000,3.000 }</string>	
-								<string>{ -18.000,-4.000 }</string>
+								<string>{ 137.500,121.000 }</string>	
+								<string>{ 121.500,128.000 }</string>	
+								<string>{ 1.500,18.000 }</string>	
+								<string>{ 24.500,18.000 }</string>
 							</array>
 							<array>	
-								<string>{ 15.000,5.000 }</string>	
-								<string>{ 25.750,-6.250 }</string>	
-								<string>{ 42.000,8.000 }</string>	
-								<string>{ 138.000,106.000 }</string>	
-								<string>{ 120.000,116.000 }</string>
+								<string>{ 1.500,18.000 }</string>	
+								<string>{ 121.500,-95.000 }</string>	
+								<string>{ 137.500,-89.000 }</string>	
+								<string>{ 24.500,18.000 }</string>
 							</array>
 							<array>	
-								<string>{ -121.000,290.000 }</string>	
-								<string>{ -138.000,290.000 }</string>	
-								<string>{ -137.000,105.000 }</string>	
-								<string>{ -121.000,117.000 }</string>
+								<string>{ 121.500,-95.000 }</string>	
+								<string>{ 122.500,-263.000 }</string>	
+								<string>{ 137.500,-279.000 }</string>	
+								<string>{ 137.500,-89.000 }</string>
 							</array>
 							<array>	
-								<string>{ 121.000,290.000 }</string>	
-								<string>{ 120.000,116.000 }</string>	
-								<string>{ 138.000,106.000 }</string>	
-								<string>{ 138.000,290.000 }</string>
+								<string>{ -122.500,300.000 }</string>	
+								<string>{ -138.500,301.000 }</string>	
+								<string>{ -137.500,119.000 }</string>	
+								<string>{ -122.500,127.000 }</string>
 							</array>
 							<array>	
-								<string>{ -137.000,105.000 }</string>	
-								<string>{ -37.000,5.000 }</string>	
-								<string>{ -18.000,-4.000 }</string>	
-								<string>{ -11.000,3.000 }</string>	
-								<string>{ -121.000,117.000 }</string>
+								<string>{ -137.500,119.000 }</string>	
+								<string>{ -22.500,17.000 }</string>	
+								<string>{ 1.500,17.000 }</string>	
+								<string>{ -122.500,127.000 }</string>
 							</array>
 							<array>	
-								<string>{ -18.000,-4.000 }</string>	
-								<string>{ -37.000,5.000 }</string>	
-								<string>{ -138.000,-96.000 }</string>	
-								<string>{ -119.000,-105.000 }</string>
+								<string>{ 1.500,17.000 }</string>	
+								<string>{ -22.500,17.000 }</string>	
+								<string>{ -137.500,-88.000 }</string>	
+								<string>{ -122.500,-95.000 }</string>
 							</array>
 							<array>	
-								<string>{ -119.000,-105.000 }</string>	
-								<string>{ -138.000,-96.000 }</string>	
-								<string>{ -138.000,-290.000 }</string>	
-								<string>{ -121.000,-271.000 }</string>
+								<string>{ -122.500,-95.000 }</string>	
+								<string>{ -137.500,-88.000 }</string>	
+								<string>{ -138.500,-279.000 }</string>	
+								<string>{ -122.500,-263.000 }</string>
 							</array>
 							<array>	
-								<string>{ -138.000,-290.000 }</string>	
-								<string>{ 138.000,-290.000 }</string>	
-								<string>{ 121.000,-271.000 }</string>	
-								<string>{ -121.000,-271.000 }</string>
-							</array>
-							<array>	
-								<string>{ 138.000,-290.000 }</string>	
-								<string>{ 138.000,-96.000 }</string>	
-								<string>{ 121.000,-107.000 }</string>	
-								<string>{ 121.000,-271.000 }</string>
-							</array>
-							<array>	
-								<string>{ 138.000,-96.000 }</string>	
-								<string>{ 42.000,8.000 }</string>	
-								<string>{ 25.750,-6.250 }</string>	
-								<string>{ 121.000,-107.000 }</string>
+								<string>{ -138.500,-279.000 }</string>	
+								<string>{ 137.500,-279.000 }</string>	
+								<string>{ 122.500,-263.000 }</string>	
+								<string>{ -122.500,-263.000 }</string>
 							</array>
 						</array>
                     </dict>

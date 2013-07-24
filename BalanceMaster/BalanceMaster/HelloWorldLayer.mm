@@ -332,7 +332,7 @@ enum {
     //triangle area
     for (int row = 0; row < INITIAL_COLUMN_COUNT/2; row++) {
         for (int n = 0; n < (row*2+1); n++) {
-            CGPoint point = ccp(WIN_SIZE.width/2 - row * GRAIN_RADIUS/2 + n * GRAIN_RADIUS, WIN_SIZE.height/2 + 20 + row * GRAIN_RADIUS);
+            CGPoint point = ccp(WIN_SIZE.width/2 - (row*2+1) * GRAIN_RADIUS/2 + n * GRAIN_RADIUS, WIN_SIZE.height/2 + 20 + row * GRAIN_RADIUS);
             b2Body *body = allGrains[index];
             body->SetTransform([self toMeters:point], 0);
             body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
@@ -525,13 +525,13 @@ enum {
 #pragma mark - Scoreboard
 -(void)initScoreboard{
     sbItem_1 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
-    sbItem_1.position = ccp(WIN_SIZE.width/2+30, 50);
+    sbItem_1.position = ccp(WIN_SIZE.width/2+60, 50);
     
     sbItem_10 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
     sbItem_10.position = ccp(WIN_SIZE.width/2+0, 50);
     
     sbItem_100 = [[ScoreboardItem alloc] initWithSpritesheet:spritesheet Number:0];
-    sbItem_100.position = ccp(WIN_SIZE.width/2-30, 50);
+    sbItem_100.position = ccp(WIN_SIZE.width/2-60, 50);
 }
 
 -(void)resetScoreboard{
