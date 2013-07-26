@@ -25,7 +25,7 @@ enum {
 
 #define GRAIN_DROPPING_DURATION_NORMAL 0.5
 #define GRAIN_RADIUS 6
-#define INITIAL_ROW_COUNT 20
+#define INITIAL_ROW_COUNT 18
 #define INITIAL_COLUMN_COUNT 18
 #define FAST_DROPPING_THEASHOLD 0.2
 
@@ -46,7 +46,8 @@ enum {
     BOOL toCalibrate;
     BOOL shake_once;
     
-    CCMenuItemLabel *menuItemStart, *menuItemReset, *menuItemAudio;
+    CCMenuItemSprite *menuItemStart, *menuItemPause, *menuItemContinue, *menuItemReset, *menuItemAudioOn, *menuItemAudioOff;
+    CCSprite *menuItemSprite_Start_Normal, *menuItemSprite_Start_Active, *menuItemSprite_Pause_Normal, *menuItemSprite_Pause_Active, *menuItemSprite_Continue_Normal, *menuItemSprite_Continue_Active, *menuItemSprite_Reset_Normal, *menuItemSprite_Reset_Active;
     BOOL paused;
     BOOL needsToResetOnStart;
     BOOL muted;
@@ -154,26 +155,7 @@ enum {
     //
     //	kmGLPopMatrix();
     
-    glLineWidth( 5.0f );
-    
-    //realtime reading
-	ccDrawColor4B(255,0,0,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-50), ccp(WIN_SIZE.width/2 + acc_x * 100, WIN_SIZE.height-50));
-    ccDrawColor4B(0,255,0,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-60), ccp(WIN_SIZE.width/2 + acc_y * 100, WIN_SIZE.height-60));
-    ccDrawColor4B(0,0,255,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-70), ccp(WIN_SIZE.width/2 + acc_z * 100, WIN_SIZE.height-70));
-    
-    //difference from calibration
-    ccDrawColor4B(255,0,0,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, 70), ccp(WIN_SIZE.width/2 + (acc_x - calib_x) * 100, 70));
-    ccDrawColor4B(0,255,0,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, 60), ccp(WIN_SIZE.width/2 + (acc_y - calib_y) * 100, 60));
-    ccDrawColor4B(0,0,255,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, 50), ccp(WIN_SIZE.width/2 + (acc_z - calib_z) * 100, 50));
-    
-    ccDrawColor4B(0,255,255,255);
-    ccDrawLine(ccp(WIN_SIZE.width/2, 30), ccp(WIN_SIZE.width/2 + diff * 100, 30));
+//    [self drawAccelerometerDebug];
 }
 
 #pragma mark - Utility
@@ -188,35 +170,63 @@ enum {
 #pragma mark - Menu
 
 -(void) createMenu{
-	[CCMenuItemFont setFontSize:36];
+    //	// to avoid a retain-cycle with the menuitem and blocks
+    //	__block id copy_self = self;
     
-    // Start Button
-    menuItemStart = [CCMenuItemFont itemWithString:@"Start" block:^(id sender){
-		[self onStart];
-	}];
+    menuItemStart = [CCMenuItemSprite
+                     itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"startButtonNormal.png"]
+                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"startButtonActive.png"]
+                     block:^(id sender) {
+                         [self onStart];
+                     }];
+    menuItemStart.position = ccp(120, 40);
     
-	// Reset Button
-    menuItemReset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		[self onReset];
-	}];
-
-//	// to avoid a retain-cycle with the menuitem and blocks
-//	__block id copy_self = self;
-	
-	CCMenu *menu = [CCMenu menuWithItems: menuItemStart, menuItemReset, nil];
-	[menu alignItemsVertically];
-	[menu setPosition:ccp( WIN_SIZE.width - 60, WIN_SIZE.height/2)];
+    menuItemPause = [CCMenuItemSprite
+                     itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"pauseButtonNormal.png"]
+                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"pauseButtonActive.png"]
+                     block:^(id sender) {
+                         [self onPause];
+                     }];
+    menuItemPause.position = ccp(120, 40);
+    menuItemPause.visible = NO;
+    
+    menuItemContinue = [CCMenuItemSprite
+                     itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"continueButtonNormal.png"]
+                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"continueButtonActive.png"]
+                     block:^(id sender) {
+                         [self onStart];
+                     }];
+    menuItemContinue.position = ccp(120, 40);
+    menuItemContinue.visible = NO;
+    
+    menuItemReset = [CCMenuItemSprite
+                     itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"resetButtonNormal.png"]
+                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"resetButtonActive.png"]
+                     block:^(id sender) {
+                         [self onReset];
+                     }];
+    menuItemReset.position = ccp(120, -40);
+    
+    //audio menu    
+    menuItemAudioOn = [CCMenuItemSprite
+                     itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"audioOn.png"]
+                     selectedSprite:[CCSprite spriteWithSpriteFrameName:@"audioOn.png"]
+                     block:^(id sender) {
+                         [self onAudio];
+                     }];
+    menuItemAudioOn.position = ccp(35 - WIN_SIZE.width/2, 210);
+    
+    menuItemAudioOff = [CCMenuItemSprite
+                       itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"audioOff.png"]
+                       selectedSprite:[CCSprite spriteWithSpriteFrameName:@"audioOff.png"]
+                       block:^(id sender) {
+                           [self onAudio];
+                       }];
+    menuItemAudioOff.position = ccp(35 - WIN_SIZE.width/2, 210);
+    menuItemAudioOff.visible = NO;
+    
+	CCMenu *menu = [CCMenu menuWithItems: menuItemStart, menuItemPause, menuItemContinue, menuItemReset, menuItemAudioOn, menuItemAudioOff, nil];
 	[self addChild:menu z:-1];
-    
-    //audio menu
-    menuItemAudio = [CCMenuItemFont itemWithString:@"Disable" block:^(id sender) {
-        [self onAudio];
-    }];
-    
-    CCMenu *menuAudio = [CCMenu menuWithItems: menuItemAudio, nil];
-	[menuAudio alignItemsVertically];
-	[menuAudio setPosition:ccp(50, WIN_SIZE.height-30)];
-    [self addChild:menuAudio z:-1];
 }
 
 -(void)onStart{
@@ -225,18 +235,17 @@ enum {
         needsToResetOnStart = NO;
     }
     
-    if (paused) {
-        paused = NO;
-        [self calibrate];
-        [self generateNextGrain];
-//        [self timerTick];
-        [menuItemStart setString:@"Pause"];
-    }
-    else
-    {
-        [menuItemStart setString:@"Continue"];
-        paused = YES;
-    }
+    paused = NO;
+    [self calibrate];
+    [self generateNextGrain];
+    menuItemStart.visible = menuItemContinue.visible = NO;
+    menuItemPause.visible = YES;
+}
+
+-(void)onPause{
+    paused = YES;
+    menuItemStart.visible = menuItemPause.visible = NO;
+    menuItemContinue.visible = YES;
 }
 
 -(void)onReset{
@@ -246,13 +255,15 @@ enum {
     [self resetGrains];
     [self resetTimer];
     [self resetScoreboard];
-    [menuItemStart setString:@"Start"];
+    menuItemPause.visible = menuItemContinue.visible = NO;
+    menuItemStart.visible = YES;
 }
 
 -(void)onFinish{
     paused = YES;
     needsToResetOnStart = YES;
-    [menuItemStart setString:@"Start"];
+    menuItemPause.visible = menuItemContinue.visible = NO;
+    menuItemStart.visible = YES;
 }
 
 #pragma mark - Physics
@@ -286,7 +297,7 @@ enum {
 
 -(void)setContainerShape{
     b2BodyDef bodyDef;
-    bodyDef.position.Set(WIN_SIZE.width*0.5/PTM_RATIO, WIN_SIZE.height*0.5/PTM_RATIO);
+    bodyDef.position.Set((WIN_SIZE.width*0.5 - 0)/PTM_RATIO, WIN_SIZE.height*0.5/PTM_RATIO);
     b2Body* body = world->CreateBody(&bodyDef);
         
     //	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
@@ -300,6 +311,14 @@ enum {
     //    [sprite setPosition: ccp( p.x, p.y)];
 	[sprite setPTMRatio:PTM_RATIO];
 	[sprite setB2Body:body];
+    
+    //halo
+    CCSprite *halo1 = [CCSprite spriteWithSpriteFrameName:@"halo.png"];
+    CCSprite *halo2 = [CCSprite spriteWithSpriteFrameName:@"halo.png"];
+    [spritesheet addChild:halo1 z:2];
+    [spritesheet addChild:halo2 z:2];
+    halo1.position = ccp(WIN_SIZE.width/2, WIN_SIZE.height/2);
+    halo2.position = ccp(WIN_SIZE.width/2 - 65, WIN_SIZE.height/2 + 145);
 }
 
 -(void)populateGrains{
@@ -389,7 +408,7 @@ enum {
     
     if ([availableGrainsIndex count]>0) {
 //        int random = arc4random() % [availableGrainsIndex count];
-        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:0]; //[availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
+        NSNumber *indexNum = [availableGrainsIndex objectAtIndex:0];//[availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
         b2Body *body = allGrains[[indexNum intValue]];
         body->SetTransform([self toMeters:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)], 0);
 //        world->DestroyBody(body);
@@ -499,6 +518,29 @@ enum {
     }
 }
 
+-(void)drawAccelerometerDebug{
+    glLineWidth( 5.0f );
+    
+    //realtime reading
+	ccDrawColor4B(255,0,0,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-50), ccp(WIN_SIZE.width/2 + acc_x * 100, WIN_SIZE.height-50));
+    ccDrawColor4B(0,255,0,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-60), ccp(WIN_SIZE.width/2 + acc_y * 100, WIN_SIZE.height-60));
+    ccDrawColor4B(0,0,255,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, WIN_SIZE.height-70), ccp(WIN_SIZE.width/2 + acc_z * 100, WIN_SIZE.height-70));
+    
+    //difference from calibration
+    ccDrawColor4B(255,0,0,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, 70), ccp(WIN_SIZE.width/2 + (acc_x - calib_x) * 100, 70));
+    ccDrawColor4B(0,255,0,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, 60), ccp(WIN_SIZE.width/2 + (acc_y - calib_y) * 100, 60));
+    ccDrawColor4B(0,0,255,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, 50), ccp(WIN_SIZE.width/2 + (acc_z - calib_z) * 100, 50));
+    
+    ccDrawColor4B(0,255,255,255);
+    ccDrawLine(ccp(WIN_SIZE.width/2, 30), ccp(WIN_SIZE.width/2 + diff * 100, 30));
+}
+
 #pragma mark - Audio
 -(void)initAudio{
     return;
@@ -514,10 +556,12 @@ enum {
 
 -(void)onAudio{
     if (!muted) {
-        [menuItemAudio setString:@"Enable"];
+        menuItemAudioOn.visible = NO;
+        menuItemAudioOff.visible = YES;
     }
     else{
-        [menuItemAudio setString:@"Disable"];
+        menuItemAudioOn.visible = YES;
+        menuItemAudioOff.visible = NO;
     }
     muted = !muted;
 }
@@ -553,7 +597,7 @@ enum {
     timerLabel = [CCLabelBMFont labelWithString:@"00:00.0" fntFile:@"BMFont.fnt"];
     timerLabel.alignment = kCCTextAlignmentLeft;
     timerLabel.anchorPoint = ccp(0,0.7f);
-    timerLabel.position = ccp(50, WIN_SIZE.height - 100);
+    timerLabel.position = ccp(10, WIN_SIZE.height/2 + 180);
     [self addChild:timerLabel z:0];
     
     [self resetTimer];
