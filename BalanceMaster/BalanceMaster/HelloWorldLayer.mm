@@ -91,22 +91,15 @@ enum {
         
 		// init physics
 		[self initPhysics];
-		
-		// create reset button
 		[self createMenu];
-
         [self populateGrains];
-        
         [self initAccelerometer];
         //		self.touchEnabled = YES;
-        
         [self initAudio];
-        
         [self initScoreboard];
         [self initTimer];
-        
+
         [self onReset];
-        
         [self scheduleUpdate];
 	}
 	return self;
@@ -373,34 +366,6 @@ enum {
     }
 }
 
--(void)populateGrains2{
-    availableGrainsIndex = [[NSMutableArray alloc] init];
-    for (int row = 0; row<INITIAL_ROW_COUNT; row++) {
-        for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
-            b2Body *body = [self addNewGrain];
-            int index = row * INITIAL_ROW_COUNT + column;
-            allGrains[index] = body;
-        } 
-    }
-    
-    [self resetGrains];
-}
-
--(void)resetGrains2{
-    [availableGrainsIndex removeAllObjects];
-    for (int row = 0; row<INITIAL_ROW_COUNT; row++) {
-        for (int column = 0; column<INITIAL_COLUMN_COUNT; column++) {
-            CGPoint point = ccp(WIN_SIZE.width/2 - INITIAL_COLUMN_COUNT*GRAIN_RADIUS/2 + column*GRAIN_RADIUS, WIN_SIZE.height/2 + 150 - row*GRAIN_RADIUS);
-            
-            int index = row * INITIAL_ROW_COUNT + column;
-            b2Body *body = allGrains[index];
-            body->SetTransform([self toMeters:point], 0);
-            body->SetLinearVelocity([self toMeters:ccp(0, 0)]);
-            [availableGrainsIndex addObject:[NSNumber numberWithInt:index]];
-        }
-    }
-}
-
 -(void) generateNextGrain{
     if (paused) {
         return;
@@ -410,7 +375,9 @@ enum {
 //        int random = arc4random() % [availableGrainsIndex count];
         NSNumber *indexNum = [availableGrainsIndex objectAtIndex:0];//[availableGrainsIndex objectAtIndex:([availableGrainsIndex count] - 1)];
         b2Body *body = allGrains[[indexNum intValue]];
-        body->SetTransform([self toMeters:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - GRAIN_RADIUS)], 0);
+        body->SetTransform([self toMeters:ccp(WIN_SIZE.width/2, WIN_SIZE.height/2 - 0*GRAIN_RADIUS)], 0);
+//        b2Vec2 force = b2Vec2(0,0);
+//        body->SetLinearVelocity(force);
 //        world->DestroyBody(body);
         [availableGrainsIndex removeObject:indexNum];
         [self performSelector:@selector(generateNextGrain) withObject:self afterDelay:grainDroppingDuration];
@@ -543,7 +510,6 @@ enum {
 
 #pragma mark - Audio
 -(void)initAudio{
-    return;
     [[SimpleAudioEngine sharedEngine] preloadEffect:@"drop_sfx.wav"];
 }
 

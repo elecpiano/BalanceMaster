@@ -31,7 +31,6 @@
 		96EC7D0F17999D15007659D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D0E17999D15007659D0 /* Default.png */; };
 		96EC7D1117999D15007659D0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1017999D15007659D0 /* Default@2x.png */; };
 		96EC7D1317999D15007659D0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1217999D15007659D0 /* Default-568h@2x.png */; };
-		96EC7D1517999D15007659D0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1417999D15007659D0 /* Default-Landscape~ipad.png */; };
 		96EC7D1717999D15007659D0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1617999D15007659D0 /* Icon-72.png */; };
 		96EC7D1917999D15007659D0 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1817999D15007659D0 /* Icon-Small-50.png */; };
 		96EC7D1B17999D15007659D0 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7D1A17999D15007659D0 /* Icon-Small.png */; };
@@ -197,7 +196,6 @@
 		96EC7F3217999D1B007659D0 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3117999D1B007659D0 /* HelloWorldLayer.mm */; };
 		96EC7F3517999D1B007659D0 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3417999D1B007659D0 /* IntroLayer.mm */; };
 		96EC7F3817999D1B007659D0 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3717999D1B007659D0 /* GLES-Render.mm */; };
-		96EC7F3A17999D1B007659D0 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 96EC7F3917999D1B007659D0 /* blocks.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -228,7 +226,6 @@
 		96EC7D0E17999D15007659D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		96EC7D1017999D15007659D0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		96EC7D1217999D15007659D0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
-		96EC7D1417999D15007659D0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		96EC7D1617999D15007659D0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
 		96EC7D1817999D15007659D0 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources/Icon-Small-50.png"; sourceTree = "<group>"; };
 		96EC7D1A17999D15007659D0 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Resources/Icon-Small.png"; sourceTree = "<group>"; };
@@ -589,7 +586,6 @@
 		96EC7F3417999D1B007659D0 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		96EC7F3617999D1B007659D0 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		96EC7F3717999D1B007659D0 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
-		96EC7F3917999D1B007659D0 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -708,7 +704,6 @@
 				96EC7D0E17999D15007659D0 /* Default.png */,
 				96EC7D1017999D15007659D0 /* Default@2x.png */,
 				96EC7D1217999D15007659D0 /* Default-568h@2x.png */,
-				96EC7D1417999D15007659D0 /* Default-Landscape~ipad.png */,
 				96EC7D1617999D15007659D0 /* Icon-72.png */,
 				96EC7D1817999D15007659D0 /* Icon-Small-50.png */,
 				96EC7D1A17999D15007659D0 /* Icon-Small.png */,
@@ -717,7 +712,6 @@
 				96EC7D2017999D16007659D0 /* Icon@2x.png */,
 				96EC7D2217999D16007659D0 /* Info.plist */,
 				96EC7D2317999D16007659D0 /* iTunesArtwork */,
-				96EC7F3917999D1B007659D0 /* blocks.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1294,7 +1288,6 @@
 				96EC7D0F17999D15007659D0 /* Default.png in Resources */,
 				96EC7D1117999D15007659D0 /* Default@2x.png in Resources */,
 				96EC7D1317999D15007659D0 /* Default-568h@2x.png in Resources */,
-				96EC7D1517999D15007659D0 /* Default-Landscape~ipad.png in Resources */,
 				96EC7D1717999D15007659D0 /* Icon-72.png in Resources */,
 				96EC7D1917999D15007659D0 /* Icon-Small-50.png in Resources */,
 				96EC7D1B17999D15007659D0 /* Icon-Small.png in Resources */,
@@ -1303,7 +1296,6 @@
 				96EC7D2117999D16007659D0 /* Icon@2x.png in Resources */,
 				96EC7D2417999D16007659D0 /* iTunesArtwork in Resources */,
 				96EC7E7A17999D1B007659D0 /* ChangeLog in Resources */,
-				96EC7F3A17999D1B007659D0 /* blocks.png in Resources */,
 				9642CED9179A703200D8C1D3 /* PhysicsModel.plist in Resources */,
 				967C3EFF179AD6B0007CFC21 /* Textures-hd.plist in Resources */,
 				967C3F00179AD6B0007CFC21 /* Textures-hd.png in Resources */,
