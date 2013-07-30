@@ -473,10 +473,10 @@ enum {
         return;
     }
 
-    diff  = sqrt(pow((x - calib_x), 2) + pow((y - calib_y), 2) + pow((z - calib_z), 2));
+//    diff  = sqrt(pow((x - calib_x), 2) + pow((y - calib_y), 2) + pow((z - calib_z), 2));
     
     if (ABS(x - calib_x) > FAST_DROPPING_THEASHOLD
-        || ABS(y - calib_y) > FAST_DROPPING_THEASHOLD
+        || ABS(y - calib_y)*2 > FAST_DROPPING_THEASHOLD
         || ABS(z - calib_z) > FAST_DROPPING_THEASHOLD) {
         grainDroppingDuration = 0.1;
     }
