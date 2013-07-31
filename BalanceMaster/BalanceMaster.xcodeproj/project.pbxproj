@@ -18,6 +18,7 @@
 		967C3F00179AD6B0007CFC21 /* Textures-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFC179AD6B0007CFC21 /* Textures-hd.png */; };
 		967C3F01179AD6B0007CFC21 /* Textures.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFD179AD6B0007CFC21 /* Textures.plist */; };
 		967C3F02179AD6B0007CFC21 /* Textures.png in Resources */ = {isa = PBXBuildFile; fileRef = 967C3EFE179AD6B0007CFC21 /* Textures.png */; };
+		96BCB7D717A95D1100D1AE89 /* SettingsLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96BCB7D617A95D1100D1AE89 /* SettingsLayer.mm */; };
 		96E1A6D4179D273A004ACFF3 /* ScoreboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E1A6D3179D273A004ACFF3 /* ScoreboardItem.m */; };
 		96EC7CFB17999D15007659D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFA17999D15007659D0 /* QuartzCore.framework */; };
 		96EC7CFD17999D15007659D0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EC7CFC17999D15007659D0 /* OpenGLES.framework */; };
@@ -196,6 +197,7 @@
 		96EC7F3217999D1B007659D0 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3117999D1B007659D0 /* HelloWorldLayer.mm */; };
 		96EC7F3517999D1B007659D0 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3417999D1B007659D0 /* IntroLayer.mm */; };
 		96EC7F3817999D1B007659D0 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EC7F3717999D1B007659D0 /* GLES-Render.mm */; };
+		96EFF57217A96CFA0040CF61 /* DefaultSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96EFF57117A96CFA0040CF61 /* DefaultSettings.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -211,6 +213,8 @@
 		967C3EFC179AD6B0007CFC21 /* Textures-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Textures-hd.png"; path = "Resources/Textures-hd.png"; sourceTree = "<group>"; };
 		967C3EFD179AD6B0007CFC21 /* Textures.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Textures.plist; path = Resources/Textures.plist; sourceTree = "<group>"; };
 		967C3EFE179AD6B0007CFC21 /* Textures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Textures.png; path = Resources/Textures.png; sourceTree = "<group>"; };
+		96BCB7D517A95D1100D1AE89 /* SettingsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsLayer.h; sourceTree = "<group>"; };
+		96BCB7D617A95D1100D1AE89 /* SettingsLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsLayer.mm; sourceTree = "<group>"; };
 		96E1A6D2179D273A004ACFF3 /* ScoreboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreboardItem.h; sourceTree = "<group>"; };
 		96E1A6D3179D273A004ACFF3 /* ScoreboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreboardItem.m; sourceTree = "<group>"; };
 		96EC7CF717999D15007659D0 /* BalanceMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BalanceMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -586,6 +590,8 @@
 		96EC7F3417999D1B007659D0 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		96EC7F3617999D1B007659D0 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		96EC7F3717999D1B007659D0 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
+		96EFF57017A9648C0040CF61 /* GlobalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
+		96EFF57117A96CFA0040CF61 /* DefaultSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultSettings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -674,6 +680,9 @@
 		96EC7D0C17999D15007659D0 /* BalanceMaster */ = {
 			isa = PBXGroup;
 			children = (
+				96EFF57017A9648C0040CF61 /* GlobalData.h */,
+				96BCB7D517A95D1100D1AE89 /* SettingsLayer.h */,
+				96BCB7D617A95D1100D1AE89 /* SettingsLayer.mm */,
 				96E1A6D1179D271D004ACFF3 /* CustomNodes */,
 				9642CE79179A5D0400D8C1D3 /* PhysicsEditor */,
 				96EC7F2D17999D1B007659D0 /* AppDelegate.h */,
@@ -687,6 +696,7 @@
 				96EC7D0D17999D15007659D0 /* Resources */,
 				96EC7D2517999D16007659D0 /* libs */,
 				96EC7F2917999D1B007659D0 /* Supporting Files */,
+				96EFF57117A96CFA0040CF61 /* DefaultSettings.plist */,
 			);
 			path = BalanceMaster;
 			sourceTree = "<group>";
@@ -1306,6 +1316,7 @@
 				9621D869179D7AEB00E38F17 /* BMFont-hd.png in Resources */,
 				9621D86A179D7AEB00E38F17 /* BMFont.fnt in Resources */,
 				9621D86B179D7AEB00E38F17 /* BMFont.png in Resources */,
+				96EFF57217A96CFA0040CF61 /* DefaultSettings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1475,6 +1486,7 @@
 				96EC7F3817999D1B007659D0 /* GLES-Render.mm in Sources */,
 				9642CE7C179A5D0400D8C1D3 /* GB2ShapeCache.mm in Sources */,
 				96E1A6D4179D273A004ACFF3 /* ScoreboardItem.m in Sources */,
+				96BCB7D717A95D1100D1AE89 /* SettingsLayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

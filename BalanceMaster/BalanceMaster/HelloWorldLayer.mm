@@ -13,21 +13,29 @@
 #import "GB2ShapeCache.h"
 #import "SimpleAudioEngine.h"
 #import "ScoreboardItem.h"
+#import "SettingsLayer.h"
+#import "GlobalData.h"
 
-enum {
-	kTagParentNode = 1,
-};
-
+//enum {
+//	kTagParentNode = 1,
+//};
 
 #pragma mark - HelloWorldLayer
 
 #pragma mark - Constants
 
 #define GRAIN_DROPPING_DURATION_NORMAL 0.5
+#define GRAIN_DROPPING_DURATION_LEVEL_1 0.2
+#define GRAIN_DROPPING_DURATION_LEVEL_2 0.1
+#define GRAIN_DROPPING_DURATION_LEVEL_3 0.05
+#define FAST_DROPPING_THEASHOLD_LEVEL_1 0.05
+#define FAST_DROPPING_THEASHOLD_LEVEL_2 0.1
+#define FAST_DROPPING_THEASHOLD_LEVEL_3 0.2
 #define GRAIN_RADIUS 6
 #define INITIAL_ROW_COUNT 18
 #define INITIAL_COLUMN_COUNT 18
-#define FAST_DROPPING_THEASHOLD 0.2
+
+int G_Sensitivity_X, G_Sensitivity_Y, G_Sensitivity_Z;
 
 @implementation HelloWorldLayer{
     CGSize WIN_SIZE;
@@ -46,7 +54,7 @@ enum {
     BOOL toCalibrate;
     BOOL shake_once;
     
-    CCMenuItemSprite *menuItemStart, *menuItemPause, *menuItemContinue, *menuItemReset, *menuItemAudioOn, *menuItemAudioOff;
+    CCMenuItemSprite *menuItemStart, *menuItemPause, *menuItemContinue, *menuItemReset, *menuItemAudioOn, *menuItemAudioOff, *menuItemSettings;
     CCSprite *menuItemSprite_Start_Normal, *menuItemSprite_Start_Active, *menuItemSprite_Pause_Normal, *menuItemSprite_Pause_Active, *menuItemSprite_Continue_Normal, *menuItemSprite_Continue_Active, *menuItemSprite_Reset_Normal, *menuItemSprite_Reset_Active;
     BOOL paused;
     BOOL needsToResetOnStart;
@@ -76,6 +84,30 @@ enum {
 	return scene;
 }
 
++(int)sensitivity_X{
+    return G_Sensitivity_X;
+}
+
++(void)setSensitivity_X:(int)value{
+    G_Sensitivity_X = value;
+}
+
++(int)sensitivity_Y{
+    return G_Sensitivity_Y;
+}
+
++(void)setSensitivity_Y:(int)value{
+    G_Sensitivity_Y = value;
+}
+
++(int)sensitivity_Z{
+    return G_Sensitivity_Z;
+}
+
++(void)setSensitivity_Z:(int)value{
+    G_Sensitivity_Z = value;
+}
+
 #pragma mark - Lifecycle
 
 -(id) init{
@@ -99,10 +131,18 @@ enum {
         [self initScoreboard];
         [self initTimer];
 
+        [self loadData];
+        
         [self onReset];
         [self scheduleUpdate];
 	}
 	return self;
+}
+
+-(void)onExit{
+    [self onPause];
+    [self unscheduleUpdate];
+    [super onExit];
 }
 
 -(void) dealloc{
@@ -113,6 +153,14 @@ enum {
 //	m_debugDraw = NULL;
 	
 	[super dealloc];
+}
+
+#pragma mark - Global Data
+-(void)loadData{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    G_Sensitivity_X = [userDefaults integerForKey:kSensitivity_X];
+    G_Sensitivity_Y = [userDefaults integerForKey:kSensitivity_Y];
+    G_Sensitivity_Z = [userDefaults integerForKey:kSensitivity_Z];
 }
 
 #pragma mark - Draw & Update
@@ -172,7 +220,7 @@ enum {
                      block:^(id sender) {
                          [self onStart];
                      }];
-    menuItemStart.position = ccp(120, 40);
+    menuItemStart.position = ccp(120, 100);
     
     menuItemPause = [CCMenuItemSprite
                      itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"pauseButtonNormal.png"]
@@ -180,7 +228,7 @@ enum {
                      block:^(id sender) {
                          [self onPause];
                      }];
-    menuItemPause.position = ccp(120, 40);
+    menuItemPause.position = ccp(120, 100);
     menuItemPause.visible = NO;
     
     menuItemContinue = [CCMenuItemSprite
@@ -189,7 +237,7 @@ enum {
                      block:^(id sender) {
                          [self onStart];
                      }];
-    menuItemContinue.position = ccp(120, 40);
+    menuItemContinue.position = ccp(120, 100);
     menuItemContinue.visible = NO;
     
     menuItemReset = [CCMenuItemSprite
@@ -198,7 +246,15 @@ enum {
                      block:^(id sender) {
                          [self onReset];
                      }];
-    menuItemReset.position = ccp(120, -40);
+    menuItemReset.position = ccp(120, 20);
+    
+    menuItemSettings = [CCMenuItemSprite
+                        itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settingsButtonNormal.png"]
+                        selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settingsButtonActive.png"]
+                        block:^(id sender) {
+                            [self onSettings];
+                        }];
+    menuItemSettings.position = ccp(120, -60);
     
     //audio menu    
     menuItemAudioOn = [CCMenuItemSprite
@@ -218,7 +274,7 @@ enum {
     menuItemAudioOff.position = ccp(35 - WIN_SIZE.width/2, 210);
     menuItemAudioOff.visible = NO;
     
-	CCMenu *menu = [CCMenu menuWithItems: menuItemStart, menuItemPause, menuItemContinue, menuItemReset, menuItemAudioOn, menuItemAudioOff, nil];
+	CCMenu *menu = [CCMenu menuWithItems: menuItemStart, menuItemPause, menuItemContinue, menuItemReset, menuItemSettings, menuItemAudioOn, menuItemAudioOff, nil];
 	[self addChild:menu z:-1];
 }
 
@@ -257,6 +313,10 @@ enum {
     needsToResetOnStart = YES;
     menuItemPause.visible = menuItemContinue.visible = NO;
     menuItemStart.visible = YES;
+}
+
+-(void)onSettings{
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[SettingsLayer scene] ]];
 }
 
 #pragma mark - Physics
@@ -475,10 +535,20 @@ enum {
 
 //    diff  = sqrt(pow((x - calib_x), 2) + pow((y - calib_y), 2) + pow((z - calib_z), 2));
     
-    if (ABS(x - calib_x) > FAST_DROPPING_THEASHOLD
-        || ABS(y - calib_y)*2 > FAST_DROPPING_THEASHOLD
-        || ABS(z - calib_z) > FAST_DROPPING_THEASHOLD) {
-        grainDroppingDuration = 0.1;
+    if (ABS(x - calib_x) * G_Sensitivity_X > FAST_DROPPING_THEASHOLD_LEVEL_3
+        || ABS(y - calib_y) * G_Sensitivity_Y > FAST_DROPPING_THEASHOLD_LEVEL_3
+        || ABS(z - calib_z) * G_Sensitivity_Z > FAST_DROPPING_THEASHOLD_LEVEL_3) {
+        grainDroppingDuration = GRAIN_DROPPING_DURATION_LEVEL_3;
+    }
+    else if (ABS(x - calib_x) * G_Sensitivity_X > FAST_DROPPING_THEASHOLD_LEVEL_2
+        || ABS(y - calib_y) * G_Sensitivity_Y > FAST_DROPPING_THEASHOLD_LEVEL_2
+        || ABS(z - calib_z) * G_Sensitivity_Z > FAST_DROPPING_THEASHOLD_LEVEL_2) {
+        grainDroppingDuration = GRAIN_DROPPING_DURATION_LEVEL_2;
+    }
+    else if (ABS(x - calib_x) * G_Sensitivity_X > FAST_DROPPING_THEASHOLD_LEVEL_1
+             || ABS(y - calib_y) * G_Sensitivity_Y > FAST_DROPPING_THEASHOLD_LEVEL_1
+             || ABS(z - calib_z) * G_Sensitivity_Z > FAST_DROPPING_THEASHOLD_LEVEL_1) {
+        grainDroppingDuration = GRAIN_DROPPING_DURATION_LEVEL_1;
     }
     else{
         grainDroppingDuration = GRAIN_DROPPING_DURATION_NORMAL;

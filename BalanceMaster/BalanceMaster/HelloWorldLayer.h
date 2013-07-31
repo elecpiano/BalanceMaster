@@ -28,6 +28,15 @@
 	GLESDebugDraw *m_debugDraw;		// strong ref
 }
 
++(int)sensitivity_X;
++(void)setSensitivity_X:(int)value;
+
++(int)sensitivity_Y;
++(void)setSensitivity_Y:(int)value;
+
++(int)sensitivity_Z;
++(void)setSensitivity_Z:(int)value;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 

@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "HelloWorldLayer.h"
+#import "GlobalData.h"
 
 @implementation MyNavigationController
 
@@ -59,6 +60,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self initUserDefualts];
+    
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
@@ -138,7 +141,7 @@
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
-	
+    
 	return YES;
 }
 
@@ -193,6 +196,19 @@
 	[navController_ release];
 	
 	[super dealloc];
+}
+
+-(void)initUserDefualts{
+    // Load default defaults
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultSettings" ofType:@"plist"]]];    
+//    
+//    NSDictionary *defaults = @{
+//                               kSensitivity_X : [NSNumber numberWithInt:1],
+//                               kSensitivity_Y : [NSNumber numberWithInt:4],
+//                               kSensitivity_Z : [NSNumber numberWithInt:1]};
+//    
+//     
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 @end
 
